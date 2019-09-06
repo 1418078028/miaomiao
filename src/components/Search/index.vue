@@ -52,8 +52,9 @@ export default{
     },
     watch:{
         message(value){
-            this.cancelRequest()
-            this.axios.get('/api/searchList?cityId=10&kw='+value,{
+            this.cancelRequest();
+            const cityId = this.$store.state.city.id;
+            this.axios.get('/api/searchList?cityId='+cityId+'&kw='+value,{
                 cancelToken: new this.axios.CancelToken((c)=>{
                 //一个执行器函数接收一个取消函数作为参数
                 this.source = c;

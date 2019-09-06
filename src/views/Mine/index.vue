@@ -16,8 +16,8 @@
         name:'Mine',
         components:{
             Header,
-            TabBar,
-            Login
+            Login,
+            TabBar
         }
     }
 </script>

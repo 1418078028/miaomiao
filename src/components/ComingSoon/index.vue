@@ -14,20 +14,23 @@
 <!--                </div>-->
 <!--            </li> -->
 <!--        </ul>-->
-        <ul>
-            <li v-for="item in ComingList" :key="item.id">
-                <div class="pic_show"><img :src="item.img | setWH('128.180')" ></div>
-                <div class="info_list">
-                    <h2>{{item.nm}}<img src="@/assets/3D.png" v-if="item.version" alt=""></h2>
-                    <p><span class="person">{{item.wish}}</span> 人想看</p>
-                    <p>{{item.star}}</p>
-                    <p>{{item.showInfo}}</p>
-                </div>
-                <div class="btn_pre">
-                    预售
-                </div>
-            </li>
-        </ul>
+        <Loading v-if="isLoading"></Loading>
+        <Scroller v-else>
+            <ul>
+                <li v-for="item in ComingList" :key="item.id">
+                    <div class="pic_show"><img :src="item.img | setWH('128.180')" ></div>
+                    <div class="info_list">
+                        <h2>{{item.nm}}<img src="@/assets/3D.png" v-if="item.version" alt=""></h2>
+                        <p><span class="person">{{item.wish}}</span> 人想看</p>
+                        <p>{{item.star}}</p>
+                        <p>{{item.showInfo}}</p>
+                    </div>
+                    <div class="btn_pre">
+                        预售
+                    </div>
+                </li>
+            </ul>
+        </Scroller>
     </div>
 </template>
 
@@ -36,14 +39,22 @@ export default {
     name:'ComingSoon',
     data(){
         return{
-            ComingList:[]
+            ComingList:[],
+            isLoading:true,
+            preCityId:-1
         }
     },
-    mounted(){
-        this.axios.get('/api/movieComingList?cityId=10').then(res=>{
-            console.log(res)
+    activated(){
+        const cityId = this.$store.state.city.id;
+        if(cityId === this.preCityId){
+            return;
+        }
+        this.axios.get('/api/movieComingList?cityId='+cityId).then(res=>{
+            // console.log(res)
             if(res.data.msg ==='ok'){
+                this.preCityId = cityId;
                 this.ComingList = res.data.data.comingList
+                this.isLoading = false
             }
         })
     }
