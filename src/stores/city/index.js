@@ -1,6 +1,6 @@
 const state = {
     nm: localStorage.getItem('nowNm') || '北京',
-    id:localStorage.getItem('nowId'.id) || '1'
+    id:localStorage.getItem('nowId') || '1'
 };
 const actions = {
 

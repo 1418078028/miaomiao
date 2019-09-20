@@ -36,6 +36,7 @@
             if(cityId === this.preCityId){
                 return
             }
+            this.isLoading = true;
             this.axios.get('/api/cinemaList?cityId='+cityId).then(res=>{
                 if(res.data.msg === 'ok'){
                     this.preCityId = cityId;

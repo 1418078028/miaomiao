@@ -41,14 +41,15 @@ export default {
         return{
             ComingList:[],
             isLoading:true,
-            preCityId:-1
+            preCityId:-1  //判断没有切换城市的组件页面过来的
         }
     },
     activated(){
         const cityId = this.$store.state.city.id;
         if(cityId === this.preCityId){
-            return;
+            return;  //再次刷新页面时，到ComingSoon页面，如果localStorage里面的ID和ID相同，不再次请求
         }
+        this.isLoading = true;
         this.axios.get('/api/movieComingList?cityId='+cityId).then(res=>{
             // console.log(res)
             if(res.data.msg ==='ok'){

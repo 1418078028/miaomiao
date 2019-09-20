@@ -19,20 +19,43 @@
             </keep-alive>
         </div>
         <TabBar/>
-        <MessageBox/>
     </div>
 </template>
 
 <script>
     import Header from '@/components/Header'
     import TabBar from '@/components/TabBar'
-    import MessageBox from '@/components/JS/MessageBox'
+    import {messageBox} from '@/components/JS'
     export default {
         name:'Movie',
         components:{
             Header,
             TabBar,
-            MessageBox
+        },
+        mounted() {
+            setTimeout(()=>{
+                this.axios.get('/api/getLocation').then((res)=>{
+                    if(res.data.msg === 'ok'){
+                        const nm = res.data.data.nm;
+                        const id = res.data.data.id;
+                        // console.log(this.$store.state.city.id ,id);
+                        if(this.$store.state.city.id == id){   //localStorage存的是字符串，所以用==
+                            return;
+                        }
+                        messageBox({
+                            title:'定位',
+                            content: nm,
+                            cancel:'取消',
+                            ok:'切换定位',
+                            handleOk(){
+                                window.localStorage.setItem('nowNm',nm)
+                                window.localStorage.setItem('nowId',id)
+                                window.location.reload()
+                            }
+                        })
+                    }
+                })
+            },2000)
         }
     }
 </script>

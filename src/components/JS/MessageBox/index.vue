@@ -1,10 +1,10 @@
 <template>
     <div class="messageBox">
-        <h2>定位</h2>
-        <p>城市</p>
+        <h2>{{title}}</h2>
+        <p>{{content}}</p>
         <div>
-            <span>取消</span>
-            <span>切换</span>
+            <span @touchstart="handleCancel">{{cancel}}</span>
+            <span @touchstart="handleOk">{{ok}}</span>
         </div>
     </div>
 </template>

@@ -48,13 +48,11 @@
             }
         },
         activated(){
-
-
             const cityId = this.$store.state.city.id
-            if(cityId === this.preCityId){
+            if(this.preCityId === cityId){
                 return
             }
-            console.log(11)
+            this.isLoading = true;
             this.axios.get('/api/movieOnInfoList?cityId='+cityId).then(res=>{
                 if(res.data.msg === 'ok'){
                     this.movieList = res.data.data.movieList;
