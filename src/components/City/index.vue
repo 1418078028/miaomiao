@@ -28,22 +28,28 @@
 <!--            </ul>-->
 <!--        </div>-->
 <!--    </div>-->
+
     <div class="city_body">
         <div class="city_list">
-            <div class="city_hot">
-                <h2>热门城市</h2>
-                <ul class="clearfix">
-                    <li v-for="item in hotList" :key="item.id">{{item.nm}}</li>
-                </ul>
-            </div>
-            <div class="city_sort" ref="city_sort">
-                <div v-for="item in cityList" :key="item.index">
-                    <h2>{{item.index}}</h2>
-                    <ul>
-                        <li v-for="itemList in item.list" :key="itemList.id">{{itemList.nm}}</li>
-                    </ul>
+            <Loading v-if="isLoading"></Loading>
+            <Scroller ref="city_list" v-else>
+                <div>
+                    <div class="city_hot">
+                        <h2>热门城市</h2>
+                        <ul class="clearfix">
+                            <li v-for="item in hotList" :key="item.id" @tap="handleToCity(item.nm,item.id)">{{item.nm}}</li>
+                        </ul>
+                    </div>
+                    <div class="city_sort" ref="city_sort">
+                        <div v-for="item in cityList" :key="item.index">
+                            <h2>{{item.index}}</h2>
+                            <ul>
+                                <li v-for="itemList in item.list" :key="itemList.id" @tap="handleToCity(itemList.nm,itemList.id)">{{itemList.nm}}</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </Scroller>
         </div>
         <div class="city_index">
             <ul>
@@ -59,21 +65,33 @@
         data (){
             return {
                 cityList : [],
-                hotList : []
+                hotList : [],
+                isLoading:true
             }
         },
         mounted(){
-            this.axios.get('/api/cityList').then(res=>{
-                console.log(res)
-                // [{index:'A',list:[{nm:'阿城'id:123}]}]
-                if(res.data.msg === 'ok'){
-                    const cities = res.data.data.cities
-                    const {cityList,hotList} = this.formatCityList(cities)
-                    this.cityList = cityList
-                    this.hotList = hotList
-                    console.log(this.cityList)
-                }
-            })
+            const City = window.localStorage.getItem('cityList')
+            const Hot = window.localStorage.getItem('hotList')
+            if(City && Hot){
+                this.cityList = JSON.parse(City)
+                this.hotList = JSON.parse(Hot)
+                this.isLoading = false
+            }else{
+                this.axios.get('/api/cityList').then(res=>{
+                    // console.log(res)
+                    // [{index:'A',list:[{nm:'阿城'id:123}]}] //把后台返回的数据转换成这种格式
+                    if(res.data.msg === 'ok'){
+                        this.isLoading = false
+                        const cities = res.data.data.cities
+                        const {cityList,hotList} = this.formatCityList(cities)
+                        this.cityList = cityList
+                        this.hotList = hotList
+                        // console.log(this.cityList)
+                        window.localStorage.setItem('cityList',JSON.stringify(cityList))
+                        window.localStorage.setItem('hotList',JSON.stringify(hotList))
+                    }
+                })
+            }
         },
         methods:{
             formatCityList(cities){
@@ -105,7 +123,7 @@
                     }
                     return true
                 }
-                cityList.sort((n1,n2)=>{
+                cityList.sort((n1,n2)=>{    //sort()方法研究一下
                     if(n1.index>n2.index){
                         return 1;
                     }else if(n1.index<n2.index){
@@ -121,7 +139,16 @@
             },
             handleTop(i){
                 const h2 = this.$refs.city_sort.getElementsByTagName('h2')
-                this.$refs.city_sort.parentNode.scrollTop = h2[i].offsetTop
+                // this.$refs.city_sort.parentNode.scrollTop = h2[i].offsetTop
+                this.$refs.city_list.toScrollTop(-h2[i].offsetTop); //此时可以拿到this.$refs.city_list.toScrollTop方法
+                // console.log(this.$refs.city_list)
+            },
+            handleToCity(nm,id){
+                window.localStorage.setItem('nowNm',nm)
+                window.localStorage.setItem('nowId',id)
+                this.$store.commit('city/CITY_INFO',{nm,id})
+
+                this.$router.push('/movie/nowPlaying')
             }
         }
     }
