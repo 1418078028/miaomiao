@@ -82,7 +82,7 @@
     .cinema_body ul{ padding:20px;}
     .cinema_body li{  border-bottom:1px solid #e6e6e6; margin-bottom: 20px;}
     .cinema_body div{ margin-bottom: 10px;}
-    .cinema_body .q{ font-size: 11px; color:#f03d37;}
+    .cinema_body .q{ font-size: 11px; color:#44BB5C;}
     .cinema_body .price{ font-size: 18px;}
     .cinema_body .address{ font-size: 13px; color:#666;}
     .cinema_body .address span:nth-of-type(2){ float:right; }

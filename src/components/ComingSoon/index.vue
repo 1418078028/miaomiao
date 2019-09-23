@@ -17,7 +17,7 @@
         <Loading v-if="isLoading"></Loading>
         <Scroller v-else>
             <ul>
-                <li v-for="item in ComingList" :key="item.id">
+                <li v-for="item in ComingList" :key="item.id" @tap="handleToDetail(item.id)">
                     <div class="pic_show"><img :src="item.img | setWH('128.180')" ></div>
                     <div class="info_list">
                         <h2>{{item.nm}}<img src="@/assets/3D.png" v-if="item.version" alt=""></h2>
@@ -58,6 +58,11 @@ export default {
                 this.isLoading = false
             }
         })
+    },
+    methods:{
+        handleToDetail(movieId){
+            this.$router.push('detail/2/' + movieId)
+        }
     }
 }
 </script>
@@ -73,6 +78,6 @@ export default {
     .movie_body .info_list p{ font-size: 13px; color:#666; line-height: 22px; width:200px; overflow: hidden; white-space: nowrap; text-overflow:ellipsis;}
     .movie_body .info_list .grade{ font-weight: 700; color: #faaf00; font-size: 15px;}
     .movie_body .info_list img{ width:50px; position: absolute; right:10px; top: 5px;}
-    .movie_body .btn_mall , .movie_body .btn_pre{ width:47px; height:27px; line-height: 28px; text-align: center; background-color: #f03d37; color: #fff; border-radius: 4px; font-size: 12px; cursor: pointer;}
+    .movie_body .btn_mall , .movie_body .btn_pre{ width:47px; height:27px; line-height: 28px; text-align: center; background-color: #44BB5C; color: #fff; border-radius: 4px; font-size: 12px; cursor: pointer;}
     .movie_body .btn_pre{ background-color: #3c9fe6;}
 </style>
