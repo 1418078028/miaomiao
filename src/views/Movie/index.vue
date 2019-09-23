@@ -1,6 +1,6 @@
 <template>
     <div id="main">
-        <Header title="喵喵电影"/>
+        <Header title="如花电影"/>
         <div id="content">
             <div class="movie_menu">
                 <router-link to="/movie/city" tag="div" class="city_name">
@@ -15,10 +15,11 @@
                 </router-link>
             </div>
             <keep-alive>
-                <router-view/>
+                <router-view></router-view>
             </keep-alive>
         </div>
         <TabBar/>
+        <router-view name="detail"></router-view>
     </div>
 </template>
 
@@ -26,11 +27,13 @@
     import Header from '@/components/Header'
     import TabBar from '@/components/TabBar'
     import {messageBox} from '@/components/JS'
+    import Detail from '@/views/Movie/detail'
     export default {
         name:'Movie',
         components:{
             Header,
             TabBar,
+            Detail
         },
         mounted() {
             setTimeout(()=>{
@@ -63,14 +66,14 @@
 <style scoped>
     #content .movie_menu{ width: 100%; height: 45px; border-bottom:1px solid #e6e6e6; display: flex; justify-content:space-between; align-items:center; background:white; z-index:10;}
     .movie_menu .city_name{ margin-left: 20px; height:100%; line-height: 45px;}
-    /*.movie_menu .city_name.active{ color: #ef4238; border-bottom: 2px #ef4238 solid;}*/
-    .movie_menu .city_name.router-link-active{ color: #ef4238; border-bottom: 2px #ef4238 solid;}
+    /*.movie_menu .city_name.active{ color: #44BB5C; border-bottom: 2px #44BB5C solid;}*/
+    .movie_menu .city_name.router-link-active{ color: #44BB5C; border-bottom: 2px #44BB5C solid;}
     .movie_menu .hot_swtich{ display: flex; height:100%; line-height: 45px;}
     .movie_menu .hot_item{ font-size: 15px; color:#666; width:80px; text-align:center; margin:0 12px; font-weight:700;}
-    /*.movie_menu .hot_item.active{ color: #ef4238; border-bottom: 2px #ef4238 solid;}*/
-    .movie_menu .hot_item.router-link-active{ color: #ef4238; border-bottom: 2px #ef4238 solid;}
+    /*.movie_menu .hot_item.active{ color: #44BB5C; border-bottom: 2px #44BB5C solid;}*/
+    .movie_menu .hot_item.router-link-active{ color: #44BB5C; border-bottom: 2px #44BB5C solid;}
     .movie_menu .search_entry{ margin-right:20px; height:100%; line-height: 45px;}
-    /*.movie_menu .search_entry.active{ color: #ef4238; border-bottom: 2px #ef4238 solid;}*/
-    .movie_menu .search_entry.router-link-active{ color: #ef4238; border-bottom: 2px #ef4238 solid;}
-    .movie_menu .search_entry i{  font-size:24px; color:red;}
+    /*.movie_menu .search_entry.active{ color: #44BB5C; border-bottom: 2px #44BB5C solid;}*/
+    .movie_menu .search_entry.router-link-active{ color: #44BB5C; border-bottom: 2px #44BB5C solid;}
+    .movie_menu .search_entry i{  font-size:24px; color:#44BB5C;}
 </style>
